@@ -1,6 +1,7 @@
 
 var data = [];
 var record_counter = 0;
+var dysplay_mode = 1;
 
 function addRecord() {
     var first_name = document.getElementById("meno").value;
@@ -36,8 +37,19 @@ function addRecord() {
     riadok.appendChild(bunka3);
     riadok.appendChild(bunka4);
     riadok.setAttribute('id', "row_" + record_counter);
+    if (gender == true) {
+        riadok.setAttribute('gender', 'female');
+    } else {
+        riadok.setAttribute('gender', 'male');
+    }
     table.appendChild(riadok);
     record_counter++;
+    /*******************/
+    if (dysplay_mode === 2) {
+        show_woman();
+    } else if (dysplay_mode === 3) {
+        show_men();
+    }
 }
 
 function remove_rov(cell_id) {
@@ -51,5 +63,37 @@ function remove_rov(cell_id) {
         if (data[i].id == rov_id) {
             data[i].is_removed = true;
         }
+    }
+}
+
+function show_woman() {
+    dysplay_mode = 2;
+    var rows = document.getElementsByTagName('tr');
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].getAttribute('gender') === 'male') {
+            rows[i].style.display = 'none';
+        } else {
+            rows[i].style.display = '';
+        }
+    }
+}
+
+function show_men() {
+    dysplay_mode = 3;
+    var rows = document.getElementsByTagName('tr');
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].getAttribute('gender') === 'female') {
+            rows[i].style.display = 'none';
+        } else {
+            rows[i].style.display = '';
+        }
+    }
+}
+
+function show_all() {
+    dysplay_mode = 1;
+    var rows = document.getElementsByTagName('tr');
+    for (var i = 0; i < rows.length; i++) {
+        rows[i].style.display = '';
     }
 }
