@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>tabulka</title>
+        <script src="table_script.js" type="text/javascript"></script>
+
+        <link rel="stylesheet" href="boostrap.css" />
+        <script src="jQuery.js" type="text/javascript"></script>
+        <script src="boostrap_script.js" type="text/javascript"></script>
+    </head>
+<!--*************************************************-->
+<body>
+    <div class="container">
+        <div class="text-center">
+            <span style="margin:0 auto">
+                <label>meno: </label><input type="text" id="meno" />
+                <label>priezvisko: </label><input type="text" id="priezvisko" />
+                <label>datum narodenia: </label><input type="text" placeholder="yyyy-mm-dd" id="datum" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" />
+                <label>pohlavie: </label><input type="radio" name="pohlavie" value="zena" checked="checked" id="pohlavie" />zena<input type="radio" name="pohlavie" value="muz" />muz
+                <button onclick="addRecord()">OK</button>
+            </span>
+        </div>
+        <hr />
+        <!--table-->
+        <div class="row">
+            <div class="col-lg-2" bgcolor="red"></div>
+                <div class="col-lg-8" bgcolor="blue">
+                    <table style="margin:0 auto; visibility: hidden;" id="tabulka" class="table">
+                        <tr>
+                            <th>meno</th>
+                            <th>priezvisko</th>
+                            <th>DOB</th>
+                            <th>zmazat</th>
+                        </tr>
+                        <tbody id="telo_tabulky"></tbody>
+                    </table>
+                </div>
+                <div class="col-lg-2" bgcolor="green">
+                    <div class="radio">
+                        <label><input type="radio" name="dyspalay_mode" checked="checked">vsetci</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="dyspalay_mode">zeny</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="dyspalay_mode">muzi</label>
+                    </div>
+                </div>
+        </div>
+        
+    </div>
+    
+</body>
+</html>
