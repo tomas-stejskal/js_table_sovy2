@@ -31,13 +31,13 @@ function addRecord() {
     bunka1.innerHTML = first_name;
     bunka2.innerHTML = last_name;
     bunka3.innerHTML = dob;
-    bunka4.innerHTML = '<button onclick="remove_rov(this)">X</button>';
+    bunka4.innerHTML = '<button onclick="remove_rov(this)" class="btn btn-danger">X</button>';
     riadok.appendChild(bunka1);
     riadok.appendChild(bunka2);
     riadok.appendChild(bunka3);
     riadok.appendChild(bunka4);
     riadok.setAttribute('id', "row_" + record_counter);
-    if (gender == true) {
+    if (gender) {
         riadok.setAttribute('gender', 'female');
     } else {
         riadok.setAttribute('gender', 'male');
