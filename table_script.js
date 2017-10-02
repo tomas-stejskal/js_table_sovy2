@@ -30,7 +30,12 @@ function addRecord() {
 
     bunka1.innerHTML = first_name;
     bunka2.innerHTML = last_name;
-    bunka3.innerHTML = dob;
+    if (document.getElementById("ve_do").checked) {
+        bunka3.innerHTML = dob;
+    } else {
+        bunka3.innerHTML = get_age(dob);
+    }
+    
     bunka4.innerHTML = '<button onclick="remove_rov(this)" class="btn btn-danger">X</button>';
     riadok.appendChild(bunka1);
     riadok.appendChild(bunka2);
@@ -95,5 +100,48 @@ function show_all() {
     var rows = document.getElementsByTagName('tr');
     for (var i = 0; i < rows.length; i++) {
         rows[i].style.display = '';
+    }
+}
+
+function get_age(dob) {
+    dob = dob.replace(/ /g, "");
+    dob = dob.split(".");
+    dob = dob[2] + "-" + dob[1] + "-" + dob[0];
+
+    dob = new Date(dob);
+    var age = Date.now() - dob.getTime();
+    age = new Date(age);
+    return (age.getFullYear() - 1970);
+}
+
+function build_table_by_age() {
+    document.getElementById('dob_age').innerHTML = 'vek';
+    var tabl = document.getElementById("telo_tabulky");
+    for (var i = 0; i < tabl.childNodes.length; i++) {
+        var dat = get_date(tabl.childNodes[i]);
+        var age = get_age(dat);
+        tabl.childNodes[i].childNodes[2].innerHTML = age;
+    }
+
+    function get_date(node) {
+        for (var j = 0; j < data.length; j++) {
+            if (node.id === data[j].id)
+                return data[j].dob;
+        }
+    }
+}
+
+function build_table_by_dob() {
+    document.getElementById('dob_age').innerHTML = 'datum narodenia';
+    var tabl = document.getElementById("telo_tabulky");
+    for (var i = 0; i < tabl.childNodes.length; i++) {
+        tabl.childNodes[i].childNodes[2].innerHTML = get_date(tabl.childNodes[i]);
+    }
+
+    function get_date(node) {
+        for (var j = 0; j < data.length; j++) {
+            if (node.id === data[j].id)
+                return data[j].dob;
+        }
     }
 }
