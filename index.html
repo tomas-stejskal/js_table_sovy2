@@ -81,9 +81,11 @@
         
     </div>
     <script>
+        window.onbeforeunload = function () { save_data_to_storage(); };
         $("#datum").datepicker({
             format: "dd. mm. yyyy"
         });
+        load_data_from_storage();
     </script>
 </body>
 </html>
