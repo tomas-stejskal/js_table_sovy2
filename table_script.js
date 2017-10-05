@@ -1,9 +1,17 @@
-
+﻿
 var data = [];
 var record_counter = 0;
 var dysplay_mode = 1;
 
 function addRecord() {
+    var pass = input_verificator();
+    if (!pass) {
+        return;
+    } else {
+        document.getElementById('err1').value = "";
+        document.getElementById('err2').value = "";
+        document.getElementById('err3').value = "";
+    }
     var first_name = document.getElementById("meno").value;
     var last_name = document.getElementById("priezvisko").value;
     var dob = document.getElementById("datum").value;
@@ -63,7 +71,7 @@ function remove_rov(cell_id) {
     var t_body = cell_id.parentNode.parentNode.parentNode;
     t_body.removeChild(parent);
     //romove form arr
-    for (var i = data.length -1 ; i >= 0; i--) {
+    for (var i = 0; i < data.length; i++) {
         if (data[i].id == rov_id) {
             data[i].is_removed = true;
         }
@@ -169,6 +177,7 @@ function load_data_from_storage() {
     s_data = JSON.parse(s_data);
     for (var i = 0; i < s_data.length; i++) {
         data[data.length] = s_data[i];
+        data[i].id = "row_" + record_counter;
 
         var table = document.getElementById("telo_tabulky");
         var riadok = document.createElement("tr");
@@ -198,4 +207,38 @@ function load_data_from_storage() {
         record_counter++;
     }
 
+}
+
+function input_verificator() {
+    var pass = true;
+
+    var f_name = document.getElementById('meno').value;
+    var l_name = document.getElementById('priezvisko').value;
+    var dob = document.getElementById('datum').value;
+
+    var patern = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+    if (patern.test(f_name)) {
+        document.getElementById('err1').innerHTML = '';
+    }else{
+        pass = false;
+        document.getElementById('err1').innerHTML = 'Nesparvne meno';
+    }
+    if (patern.test(l_name)) {
+        document.getElementById('err2').innerHTML = '';
+    } else {
+        pass = false;
+        document.getElementById('err2').innerHTML = 'Nesparvne priezvisko';
+    }
+    dob = dob.replace(/ /g, "");
+    dob = dob.split(".");
+    dob = dob[2] + "-" + dob[1] + "-" + dob[0];
+
+    dob = new Date(dob);
+    if (Date.now() < dob.getTime()) {
+        pass = false;
+        document.getElementById('err3').innerHTML = 'Nesmie byt buduci cas';
+    } else {
+        document.getElementById('err3').innerHTML = '';
+    }
+    return pass;
 }

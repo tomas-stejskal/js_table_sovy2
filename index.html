@@ -1,28 +1,28 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta lang="sk" />
-        <title>tabulka</title>
-        <script src="table_script.js" type="text/javascript"></script>
+<head>
+    <meta charset="utf-8" />
+    <meta lang="sk" />
+    <title>tabulka</title>
+    <script src="table_script.js" type="text/javascript"></script>
 
-        <link rel="stylesheet" href="boostrap.css" />
-        
-        <link rel="stylesheet" href="bootstrap-datepicker3.css" />
-        <link rel="stylesheet" href="bootstrap-datepicker3.css.map" />
-        <link rel="stylesheet" href="bootstrap-datepicker3.min.css" />
-        <link rel="stylesheet" href="bootstrap-datepicker3.min.css.map" />
+    <link rel="stylesheet" href="boostrap.css" />
+
+    <link rel="stylesheet" href="bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="bootstrap-datepicker3.css.map" />
+    <link rel="stylesheet" href="bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" href="bootstrap-datepicker3.min.css.map" />
 
 
 
-        <script src="jQuery.js" type="text/javascript"></script>
-        <script src="boostrap_script.js" type="text/javascript"></script>
+    <script src="jQuery.js" type="text/javascript"></script>
+    <script src="boostrap_script.js" type="text/javascript"></script>
 
-        <script src="bootstrap-datepicker.js" type="text/javascript"></script>
-        <script src="bootstrap-datepicker.min.js" type="text/javascript"></script>
-        
-        
-    </head>
+    <script src="bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="bootstrap-datepicker.min.js" type="text/javascript"></script>
+
+
+</head>
 <!--*************************************************-->
 <body onload="document.getElementById('vsetci').checked = true;
     document.getElementById('ve_do').checked = true;">
@@ -31,16 +31,29 @@
         <div style="height:50px;"></div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="text-center" >
-                    <span style="margin:0 auto">
+                <div class="text-right form-inline" role="form">
+                    <div class="pull-left">
                         <label>meno: </label><input type="text" id="meno" />
+                        <br />
+                        <label style="color:red" id="err1"></label>
+                    </div>
+                    <div class="pull-left">
                         <label>priezvisko: </label><input type="text" id="priezvisko" />
+                        <br />
+                        <label style="color:red" id="err2"></label>
+                    </div>
+                    <div class="pull-left">
                         <label>datum narodenia: </label><input type="text" readonly="readonly" id="datum" />
+                        <br />
+                        <label style="color:red" id="err3"></label>
+                    </div>
+                    <div class="pull-left">
                         <label>pohlavie: </label>
                         <label class="radio-inline"><input type="radio" name="pohlavie" value="zena" checked="checked" id="pohlavie" />zena</label>
                         <label class="radio-inline"><input type="radio" name="pohlavie" value="muz" />muz</label>
                         <button onclick="addRecord()" class="btn btn-primary">OK</button>
-                    </span>
+                    </div>  
+                    
                 </div>
             </div>
         </div>
@@ -48,37 +61,37 @@
         <!--table-->
         <div class="row">
             <div class="col-lg-2" bgcolor="red"></div>
-                <div class="col-lg-8" bgcolor="blue">
-                    <table style="margin:0 auto; visibility: hidden;" id="tabulka" class="table">
-                        <tr>
-                            <th>meno</th>
-                            <th>priezvisko</th>
-                            <th id="dob_age">datum narodenia</th>
-                            <th>zmazat</th>
-                        </tr>
-                        <tbody id="telo_tabulky"></tbody>
-                    </table>
+            <div class="col-lg-8" bgcolor="blue">
+                <table style="margin:0 auto; visibility: hidden;" id="tabulka" class="table">
+                    <tr>
+                        <th>meno</th>
+                        <th>priezvisko</th>
+                        <th id="dob_age">datum narodenia</th>
+                        <th>zmazat</th>
+                    </tr>
+                    <tbody id="telo_tabulky"></tbody>
+                </table>
+            </div>
+            <div class="col-lg-2" bgcolor="green">
+                <div class="radio">
+                    <label><input type="radio" name="dyspalay_mode" checked="checked" onclick="show_all()" id="vsetci">vsetci</label>
                 </div>
-                <div class="col-lg-2" bgcolor="green">
-                    <div class="radio">
-                        <label><input type="radio" name="dyspalay_mode" checked="checked" onclick="show_all()" id="vsetci">vsetci</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="dyspalay_mode" onclick="show_woman()">zeny</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="dyspalay_mode" onclick="show_men()">muzi</label>
-                    </div>
-                    <hr />
-                    <div class="radio">
-                        <label><input type="radio" name="vek_dob" onclick="build_table_by_dob()" checked="checked" id="ve_do"/>Datum narodenia</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="vek_dob" onclick="build_table_by_age()" />Vek</label>
-                    </div>
+                <div class="radio">
+                    <label><input type="radio" name="dyspalay_mode" onclick="show_woman()">zeny</label>
                 </div>
+                <div class="radio">
+                    <label><input type="radio" name="dyspalay_mode" onclick="show_men()">muzi</label>
+                </div>
+                <hr />
+                <div class="radio">
+                    <label><input type="radio" name="vek_dob" onclick="build_table_by_dob()" checked="checked" id="ve_do" />Datum narodenia</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="vek_dob" onclick="build_table_by_age()" />Vek</label>
+                </div>
+            </div>
         </div>
-        
+
     </div>
     <script>
         window.onbeforeunload = function () { save_data_to_storage(); };
