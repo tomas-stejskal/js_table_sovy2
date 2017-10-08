@@ -11,6 +11,8 @@ function addRecord() {
         document.getElementById('err1').value = "";
         document.getElementById('err2').value = "";
         document.getElementById('err3').value = "";
+
+        
     }
     var first_name = document.getElementById("meno").value;
     var last_name = document.getElementById("priezvisko").value;
@@ -38,7 +40,7 @@ function addRecord() {
 
     bunka1.innerHTML = first_name;
     bunka2.innerHTML = last_name;
-    if (document.getElementById("ve_do").checked) {
+    if (!document.getElementById("ve_do").checked) {
         bunka3.innerHTML = dob;
     } else {
         bunka3.innerHTML = get_age(dob);
@@ -63,6 +65,9 @@ function addRecord() {
     } else if (dysplay_mode === 3) {
         show_men();
     }
+    document.getElementById('meno').value = "";
+    document.getElementById('priezvisko').value = "";
+    document.getElementById('datum').value = "";
 }
 
 function remove_rov(cell_id) {
@@ -126,7 +131,7 @@ function get_age(dob) {
 }
 
 function build_table_by_age() {
-    document.getElementById('dob_age').innerHTML = 'vek';
+    document.getElementById('dob_age').innerHTML = 'age';
     var tabl = document.getElementById("telo_tabulky");
     for (var i = 0; i < tabl.childNodes.length; i++) {
         var dat = get_date(tabl.childNodes[i]);
@@ -143,7 +148,7 @@ function build_table_by_age() {
 }
 
 function build_table_by_dob() {
-    document.getElementById('dob_age').innerHTML = 'datum narodenia';
+    document.getElementById('dob_age').innerHTML = 'date of birth';
     var tabl = document.getElementById("telo_tabulky");
     for (var i = 0; i < tabl.childNodes.length; i++) {
         tabl.childNodes[i].childNodes[2].innerHTML = get_date(tabl.childNodes[i]);
@@ -216,29 +221,45 @@ function input_verificator() {
     var l_name = document.getElementById('priezvisko').value;
     var dob = document.getElementById('datum').value;
 
+    
+
     var patern = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
     if (patern.test(f_name)) {
         document.getElementById('err1').innerHTML = '';
     }else{
         pass = false;
-        document.getElementById('err1').innerHTML = 'Nesparvne meno';
+        document.getElementById('err1').innerHTML = 'Incorrect name';
     }
     if (patern.test(l_name)) {
         document.getElementById('err2').innerHTML = '';
     } else {
         pass = false;
-        document.getElementById('err2').innerHTML = 'Nesparvne priezvisko';
+        document.getElementById('err2').innerHTML = 'Incorrect surename';
     }
+
+    if (dob == "") {
+        pass == false;
+        document.getElementById('err3').innerHTML = 'Date must be selected';
+        return pass;
+    }
+
     dob = dob.replace(/ /g, "");
     dob = dob.split(".");
     dob = dob[2] + "-" + dob[1] + "-" + dob[0];
-
     dob = new Date(dob);
     if (Date.now() < dob.getTime()) {
         pass = false;
-        document.getElementById('err3').innerHTML = 'Nesmie byt buduci cas';
+        document.getElementById('err3').innerHTML = 'Can\'t be a future time';
     } else {
         document.getElementById('err3').innerHTML = '';
     }
     return pass;
+}
+
+function age_dob_switch(argv) {
+    if (argv.checked) {
+        build_table_by_age();
+    } else {
+        build_table_by_dob();
+    }
 }
