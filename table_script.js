@@ -2,6 +2,9 @@
 var data = [];
 var record_counter = 0;
 var dysplay_mode = 1;
+var name_sortAZ = true;
+var surename_sortAZ = true;
+var sort_date = true;
 
 function addRecord() {
     var pass = input_verificator();
@@ -261,5 +264,175 @@ function age_dob_switch(argv) {
         build_table_by_age();
     } else {
         build_table_by_dob();
+    }
+}
+
+function sorting_by_name() {
+    var table = document.getElementById('telo_tabulky').childNodes;
+
+    if (name_sortAZ) {
+        name_sortAZ = false;
+
+        for (var i = 0; i < table.length; i++) {
+            for (var j = 0; j < table.length - 1; j++) {
+
+                var val1 = table[j].childNodes;
+                val1 = val1[0].innerHTML;
+
+                var val2 = table[j + 1].childNodes;
+                val2 = val2[0].innerHTML;
+
+                if (val1 > val2) {
+                    table[0].parentNode.insertBefore(table[j + 1], table[j]);
+                }
+            }
+        }
+    } else {
+        name_sortAZ = true;
+
+        for (var i = 0; i < table.length; i++) {
+            for (var j = 0; j < table.length - 1; j++) {
+
+                var val1 = table[j].childNodes;
+                val1 = val1[0].innerHTML;
+
+                var val2 = table[j + 1].childNodes;
+                val2 = val2[0].innerHTML;
+
+                if (val1 < val2) {
+                    table[0].parentNode.insertBefore(table[j + 1], table[j]);
+                }
+            }
+        }
+    }
+}
+
+function sorting_by_surename() {
+    var table = document.getElementById('telo_tabulky').childNodes;
+
+    if (surename_sortAZ) {
+        surename_sortAZ = false;
+
+        for (var i = 0; i < table.length; i++) {
+            for (var j = 0; j < table.length - 1; j++) {
+
+                var val1 = table[j].childNodes;
+                val1 = val1[1].innerHTML;
+
+                var val2 = table[j + 1].childNodes;
+                val2 = val2[1].innerHTML;
+
+                if (val1 > val2) {
+                    table[0].parentNode.insertBefore(table[j + 1], table[j]);
+                }
+            }
+        }
+    } else {
+        surename_sortAZ = true;
+
+        for (var i = 0; i < table.length; i++) {
+            for (var j = 0; j < table.length - 1; j++) {
+
+                var val1 = table[j].childNodes;
+                val1 = val1[1].innerHTML;
+
+                var val2 = table[j + 1].childNodes;
+                val2 = val2[1].innerHTML;
+
+                if (val1 < val2) {
+                    table[0].parentNode.insertBefore(table[j + 1], table[j]);
+                }
+            }
+        }
+    }
+}
+
+function sort_by_dob() {
+    function get_time(dob) {
+        dob = dob.replace(/ /g, "");
+        dob = dob.split(".");
+        dob = dob[2] + "-" + dob[1] + "-" + dob[0];
+        dob = new Date(dob);
+        return dob.getTime();
+    }
+    var table = document.getElementById('telo_tabulky').childNodes;
+    
+    if (document.getElementById('ve_do').checked) {
+        if (sort_date) {
+            sort_date = false;
+
+            for (var i = 0; i < table.length; i++) {
+                for (var j = 0; j < table.length - 1; j++) {
+
+                    var val1 = table[j].childNodes;
+                    val1 = val1[2].innerHTML;
+
+                    var val2 = table[j + 1].childNodes;
+                    val2 = val2[2].innerHTML;
+
+                    if (Number(val1) > Number(val2)) {
+                        table[0].parentNode.insertBefore(table[j + 1], table[j]);
+                    }
+                }
+            }
+        } else {
+            sort_date = true;
+
+            for (var i = 0; i < table.length; i++) {
+                for (var j = 0; j < table.length - 1; j++) {
+
+                    var val1 = table[j].childNodes;
+                    val1 = val1[2].innerHTML;
+
+                    var val2 = table[j + 1].childNodes;
+                    val2 = val2[2].innerHTML;
+
+                    if (Number(val1) < Number(val2)) {
+                        table[0].parentNode.insertBefore(table[j + 1], table[j]);
+                    }
+                }
+            }
+        }
+    } else {
+        if (sort_date) {
+            sort_date = false;
+
+            for (var i = 0; i < table.length; i++) {
+                for (var j = 0; j < table.length - 1; j++) {
+
+                    var val1 = table[j].childNodes;
+                    val1 = val1[2].innerHTML;
+                    val1 = get_time(val1);
+
+                    var val2 = table[j + 1].childNodes;
+                    val2 = val2[2].innerHTML;
+                    val2 = get_time(val2);
+
+                    if (val1 > val2) {
+                        
+                        table[0].parentNode.insertBefore(table[j + 1], table[j]);
+                    }
+                }
+            }
+        } else {
+            sort_date = true;
+
+            for (var i = 0; i < table.length; i++) {
+                for (var j = 0; j < table.length - 1; j++) {
+
+                    var val1 = table[j].childNodes;
+                    val1 = val1[2].innerHTML;
+                    val1 = get_time(val1);
+
+                    var val2 = table[j + 1].childNodes;
+                    val2 = val2[2].innerHTML;
+                    val2 = get_time(val2);
+
+                    if (val1 < val2) {
+                        table[0].parentNode.insertBefore(table[j + 1], table[j]);
+                    }
+                }
+            }
+        }
     }
 }

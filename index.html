@@ -74,9 +74,9 @@
             <div class="col-lg-8">
                 <table style="margin:0 auto; visibility: hidden;" id="tabulka" class="table">
                     <tr>
-                        <th>name</th>
-                        <th>surename</th>
-                        <th id="dob_age">date of birth</th>
+                        <th onclick="sorting_by_name()" style="cursor:pointer;">name</th>
+                        <th onclick="sorting_by_surename()" style="cursor:pointer;">surename</th>
+                        <th id="dob_age" onclick="sort_by_dob()" style="cursor:pointer;">date of birth</th>
                         <th>remove</th>
                     </tr>
                     <tbody id="telo_tabulky"></tbody>
