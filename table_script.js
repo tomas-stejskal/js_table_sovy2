@@ -5,6 +5,8 @@ var dysplay_mode = 1;
 var name_sortAZ = true;
 var surename_sortAZ = true;
 var sort_date = true;
+var selctted_page = 1;
+
 
 function addRecord() {
     var pass = input_verificator();
@@ -64,13 +66,18 @@ function addRecord() {
     record_counter++;
     /*******************/
     if (dysplay_mode === 2) {
-        show_woman();
+        show_woman(selctted_page);
     } else if (dysplay_mode === 3) {
-        show_men();
+        show_men(selctted_page);
+    } else {
+        show_all(selctted_page);
     }
     document.getElementById('meno').value = "";
     document.getElementById('priezvisko').value = "";
     document.getElementById('datum').value = "";
+
+  //  genreate_pages();
+    //go_to_page_1(1);
 }
 
 function remove_rov(cell_id) {
@@ -88,6 +95,14 @@ function remove_rov(cell_id) {
     if (t_body.childNodes.length == 0) {
         document.getElementById('tabulka').style.display = 'none';
     }
+    //pagination
+    genreate_pages();
+    var buttons = document.getElementById('pagination').childNodes;
+    if (selctted_page > buttons.length)
+        selctted_page--;
+    if (selctted_page < 1)
+        selctted_page = 1;
+    go_to_page_1(selctted_page);
 }
 
 function show_woman() {
@@ -95,11 +110,19 @@ function show_woman() {
     var rows = document.getElementsByTagName('tr');
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].getAttribute('gender') === 'male') {
-            rows[i].style.display = 'none';
+            rows[i].setAttribute("visible", "false");
         } else {
-            rows[i].style.display = '';
-        }
+            rows[i].setAttribute("visible", "true");
+        }  
     }
+    genreate_pages();
+    if (arguments[0] !== undefined) {
+        go_to_page_1(arguments[0]);
+    } else {
+        selctted_page = 1;
+        go_to_page_1(1);
+    }
+    
 }
 
 function show_men() {
@@ -107,10 +130,17 @@ function show_men() {
     var rows = document.getElementsByTagName('tr');
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].getAttribute('gender') === 'female') {
-            rows[i].style.display = 'none';
+            rows[i].setAttribute("visible", "false");
         } else {
-            rows[i].style.display = '';
+            rows[i].setAttribute("visible", "true");
         }
+    }
+    genreate_pages();
+    if (arguments[0] !== undefined) {
+        go_to_page_1(arguments[0]);
+    } else {
+        selctted_page = 1;
+        go_to_page_1(1);
     }
 }
 
@@ -118,7 +148,14 @@ function show_all() {
     dysplay_mode = 1;
     var rows = document.getElementsByTagName('tr');
     for (var i = 0; i < rows.length; i++) {
-        rows[i].style.display = '';
+        rows[i].setAttribute("visible", "true");
+    }
+    genreate_pages();
+    if (arguments[0] !== undefined) {
+        go_to_page_1(arguments[0]);
+    } else {
+        selctted_page = 1;
+        go_to_page_1(1);
     }
 }
 
@@ -214,7 +251,7 @@ function load_data_from_storage() {
         document.getElementById("tabulka").setAttribute("style", "margin:0 auto;");
         record_counter++;
     }
-
+    show_all();
 }
 
 function input_verificator() {
@@ -282,7 +319,7 @@ function sorting_by_name() {
                 var val2 = table[j + 1].childNodes;
                 val2 = val2[0].innerHTML;
 
-                if (val1 > val2) {
+                if (val1.toUpperCase() > val2.toUpperCase()) {
                     table[0].parentNode.insertBefore(table[j + 1], table[j]);
                 }
             }
@@ -299,12 +336,13 @@ function sorting_by_name() {
                 var val2 = table[j + 1].childNodes;
                 val2 = val2[0].innerHTML;
 
-                if (val1 < val2) {
+                if (val1.toUpperCase() < val2.toUpperCase()) {
                     table[0].parentNode.insertBefore(table[j + 1], table[j]);
                 }
             }
         }
     }
+    go_to_page_1(selctted_page);
 }
 
 function sorting_by_surename() {
@@ -322,7 +360,7 @@ function sorting_by_surename() {
                 var val2 = table[j + 1].childNodes;
                 val2 = val2[1].innerHTML;
 
-                if (val1 > val2) {
+                if (val1.toUpperCase() > val2.toUpperCase()) {
                     table[0].parentNode.insertBefore(table[j + 1], table[j]);
                 }
             }
@@ -339,12 +377,13 @@ function sorting_by_surename() {
                 var val2 = table[j + 1].childNodes;
                 val2 = val2[1].innerHTML;
 
-                if (val1 < val2) {
+                if (val1.toUpperCase() < val2.toUpperCase()) {
                     table[0].parentNode.insertBefore(table[j + 1], table[j]);
                 }
             }
         }
     }
+    go_to_page_1(selctted_page);
 }
 
 function sort_by_dob() {
@@ -433,6 +472,80 @@ function sort_by_dob() {
                     }
                 }
             }
+        }
+    }
+    go_to_page_1(selctted_page);
+}
+
+function genreate_pages() {
+    var t_body = document.getElementById('telo_tabulky');
+    t_body = t_body.childNodes;
+    var visible_counter = 0;
+    for (var i = 0; i < t_body.length; i++) {
+        if (t_body[i].getAttribute('visible') == "true")
+            visible_counter++;
+    }
+    var page_count = visible_counter / 5;
+    page_count = Math.ceil(page_count);
+    //========//========//
+    var pages = document.getElementById('pagination');
+    pages.innerHTML = "";
+    for (var i = 0; i < page_count; i++) {
+        var p = document.createElement('li');
+        p.innerHTML = '<a onclick="go_to_page(this)">' + (i + 1) + '</a>';
+        pages.appendChild(p);
+    }
+}
+
+function go_to_page(argv) {
+    var t_rows = document.getElementById('telo_tabulky').childNodes;
+    var page = Number(argv.innerHTML);
+    var show_start_at = (page - 1) * 5;
+    selctted_page = page;
+
+    var counter = -1;
+    for (var i = 0; i < t_rows.length; i++) {
+        if (t_rows[i].getAttribute('visible') == 'true')
+            counter++;
+        if (counter >= show_start_at && counter < show_start_at + 5 && t_rows[i].getAttribute('visible') == 'true') {
+            t_rows[i].setAttribute("hore", "true");
+        } else {
+            t_rows[i].setAttribute("hore", "false");
+        }
+    }
+    //****************
+    var buttons = document.getElementById('pagination').childNodes;
+    for (var i = 0; i < buttons.length; i++) {
+        var a = buttons[i].childNodes;
+        if (Number(a[0].innerHTML) == page) {
+            buttons[i].className = "active";
+        }else{
+            buttons[i].className = "";
+        }
+    }
+}
+
+function go_to_page_1(page) {
+    var show_start_at = (page - 1) * 5;
+    var t_rows = document.getElementById('telo_tabulky').childNodes;
+    var counter = -1;
+    for (var i = 0; i < t_rows.length; i++) {
+        if (t_rows[i].getAttribute('visible') == 'true')
+            counter++;
+        if (counter >= show_start_at && counter < show_start_at + 5 && t_rows[i].getAttribute('visible') == 'true') {
+            t_rows[i].setAttribute("hore", "true");
+        } else {
+            t_rows[i].setAttribute("hore", "false");
+        }
+    }
+    //****************
+    var buttons = document.getElementById('pagination').childNodes;
+    for (var i = 0; i < buttons.length; i++) {
+        var a = buttons[i].childNodes;
+        if (Number(a[0].innerHTML) == page) {
+            buttons[i].className = "active";
+        } else {
+            buttons[i].className = "";
         }
     }
 }

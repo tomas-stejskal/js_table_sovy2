@@ -30,6 +30,18 @@
         [gender=male]{
             color:rgb(26, 83, 255);
         }
+     /*   [visble=true]{
+            display:block;
+        }
+        [visible=false]{
+            display:none;
+        }*/
+        [hore=true]{
+            display:normal;
+        }
+        [hore=false]{
+            display:none;
+        }
     </style>
 
 </head>
@@ -73,12 +85,14 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
                 <table style="margin:0 auto; visibility: hidden;" id="tabulka" class="table">
-                    <tr>
-                        <th onclick="sorting_by_name()" style="cursor:pointer;">name</th>
-                        <th onclick="sorting_by_surename()" style="cursor:pointer;">surename</th>
-                        <th id="dob_age" onclick="sort_by_dob()" style="cursor:pointer;">date of birth</th>
-                        <th>remove</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th onclick="sorting_by_name()" style="cursor:pointer;">name</th>
+                            <th onclick="sorting_by_surename()" style="cursor:pointer;">surename</th>
+                            <th id="dob_age" onclick="sort_by_dob()" style="cursor:pointer;">date of birth</th>
+                            <th>remove</th>
+                        </tr>
+                    </thead>
                     <tbody id="telo_tabulky"></tbody>
                 </table>
             </div>
@@ -99,20 +113,16 @@
             </div>
         </div>
         <!--pagination-->
-       <!-- <div calss="row">
+        <div calss="row">
             <div class="col-lg-2">
 
             </div>
             <div class="col-lg-8">
-                <ul class="pagination pull-right" id="pagination">
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                <ul class="pagination pull-right" id="pagination" style="cursor:pointer;">
+                    
                 </ul> 
             </div>
-        </div>-->
+        </div>
 
     </div>
     <script>
